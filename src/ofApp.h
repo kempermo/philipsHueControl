@@ -30,6 +30,11 @@ class ofApp : public ofxiOSApp {
         slider blueSlider;
     
         ofColor color;
+    
+        ofImage colorWheel;
+        ofVec2f positionOfWheel;
+        ofVec2f centerOfWheel;
+        float colorWheelSize;
 };
 
 

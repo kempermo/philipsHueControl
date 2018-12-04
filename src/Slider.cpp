@@ -8,7 +8,7 @@ void slider::setup(string _name, ofVec2f _position, ofVec2f _size, int _touchAre
     touchArea = _touchArea;
     currentValue = _startvalue;
     
-    myfont.load("SourceSansPro-Semibold.ttf", 32);
+    myfont.load("SourceSansPro-Semibold.ttf", 20);
 }
 
 void slider::dragAble(ofVec2f _touchPoint)
@@ -51,12 +51,33 @@ void slider::draw()
     ofDrawRectangle(position.x, position.y, size.x, size.y);
     
     ofSetColor(255,255,255);
+    ofDrawEllipse(position.x, position.y+size.y/2, size.y, size.y);
+    ofDrawRectangle(position.x, position.y, currentValueToSize, size.y);
+    
+    ofSetColor(255,255,255);
     ofDrawEllipse(position.x+currentValueToSize, position.y+size.y/2, size.y, size.y);
     
-    myfont.drawString(ofToString(currentValue), position.x+size.x/2, position.y-30);
+    drawStringCentered(ofToString(currentValue), position.x+size.x/2, position.y-30);
+}
+
+void slider::setValue(unsigned char _value)
+{
+    currentValue = _value;
+    newDataAvailable = true;
 }
 
 int slider::getCurrentValue()
 {
     return currentValue;
+}
+
+void slider::drawStringCentered(string s, float x, float y)
+{
+    ofVec2f offset = getOffset(s);
+    myfont.drawString(s, x + offset.x, y + offset.y);
+}
+
+ofVec2f slider::getOffset( string s ){
+    ofRectangle r = myfont.getStringBoundingBox(s, 0, 0);
+    return ofVec2f( floor(-r.x - r.width * 0.5f), floor(-r.y - r.height * 0.5f) );
 }
